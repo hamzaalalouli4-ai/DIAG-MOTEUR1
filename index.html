@@ -1,0 +1,2598 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DIAG MOTEUR — Diagnostic Automobile</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:#0b0f14;
+    color:#e8edf2;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    height:75px;
+    background:#111820;
+    border-bottom:1px solid #27313b;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-icon{
+    width:45px;
+    height:45px;
+    background:#e10600;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+
+.logo h1{
+    font-size:22px;
+    letter-spacing:1px;
+}
+
+.logo span{
+    color:#8995a1;
+    font-size:12px;
+}
+
+.search-box{
+    width:320px;
+}
+
+.search-box input{
+    width:100%;
+    padding:12px 15px;
+    border-radius:8px;
+    border:1px solid #303b46;
+    background:#0b0f14;
+    color:white;
+    outline:none;
+}
+
+.search-box input:focus{
+    border-color:#e10600;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.container{
+    display:flex;
+    min-height:calc(100vh - 75px);
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    width:270px;
+    background:#10161d;
+    border-right:1px solid #27313b;
+    padding:20px 15px;
+    position:sticky;
+    top:75px;
+    height:calc(100vh - 75px);
+    overflow-y:auto;
+}
+
+.sidebar-title{
+    color:#7f8b97;
+    font-size:12px;
+    text-transform:uppercase;
+    margin:15px 10px 8px;
+}
+
+.side-btn{
+    width:100%;
+    background:transparent;
+    color:#cbd3da;
+    border:none;
+    padding:11px 12px;
+    text-align:left;
+    border-radius:7px;
+    cursor:pointer;
+    margin-bottom:3px;
+    transition:.2s;
+}
+
+.side-btn:hover{
+    background:#1b242d;
+    color:white;
+}
+
+.side-btn.active{
+    background:#e10600;
+    color:white;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+    flex:1;
+    padding:30px;
+    overflow:hidden;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    background:
+        linear-gradient(135deg,#171f28,#0d1218);
+    border:1px solid #28333e;
+    border-radius:15px;
+    padding:35px;
+    margin-bottom:25px;
+}
+
+.hero h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+
+.hero p{
+    color:#9da8b2;
+    line-height:1.6;
+}
+
+/* =========================
+   SECTION TITLE
+========================= */
+
+.section-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.section-title h2{
+    font-size:20px;
+}
+
+.section-title span{
+    color:#737f8a;
+    font-size:13px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:15px;
+}
+
+.card{
+    background:#111820;
+    border:1px solid #29343e;
+    border-radius:12px;
+    padding:20px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.card:hover{
+    transform:translateY(-3px);
+    border-color:#e10600;
+    background:#151e27;
+}
+
+.card-icon{
+    font-size:32px;
+    margin-bottom:15px;
+}
+
+.card h3{
+    margin-bottom:8px;
+}
+
+.card p{
+    color:#84909b;
+    font-size:13px;
+    line-height:1.5;
+}
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category{
+    margin-bottom:30px;
+}
+
+.category h2{
+    font-size:18px;
+    margin-bottom:15px;
+    color:#f0f3f5;
+}
+
+/* =========================
+   DETAIL PAGE
+========================= */
+
+.detail-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.back-btn{
+    background:#202a34;
+    color:white;
+    border:1px solid #34414c;
+    padding:10px 16px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.back-btn:hover{
+    background:#2a3641;
+}
+
+.detail-title h1{
+    font-size:28px;
+}
+
+.detail-title p{
+    color:#7f8b96;
+    margin-top:5px;
+}
+
+.detail-image{
+    min-height:350px;
+    background:#0e141a;
+    border:1px solid #29343e;
+    border-radius:15px;
+    margin-bottom:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow:hidden;
+}
+
+.detail-image img{
+    max-width:100%;
+    max-height:450px;
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    border-radius:12px;
+    display:block;
+    margin:auto;
+}
+
+.image-placeholder{
+    min-height:280px;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:#687580;
+    text-align:center;
+}
+
+.big-icon{
+    font-size:70px;
+    margin-bottom:15px;
+}
+
+/* =========================
+   INFO CARDS
+========================= */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.info-card{
+    background:#111820;
+    border:1px solid #29343e;
+    border-radius:12px;
+    padding:22px;
+}
+
+.info-card h3{
+    margin-bottom:12px;
+    color:#f3f5f7;
+}
+
+.info-card p{
+    color:#a4afb8;
+    line-height:1.7;
+}
+
+.full-card{
+    grid-column:1/-1;
+}
+
+.info-card ul{
+    padding-left:20px;
+}
+
+.info-card li{
+    margin-bottom:9px;
+    color:#aeb8c0;
+    line-height:1.5;
+}
+
+/* =========================
+   RELATED
+========================= */
+
+.related{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.related button{
+    background:#1b242d;
+    border:1px solid #34404a;
+    color:#d9e0e5;
+    padding:9px 13px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+.related button:hover{
+    border-color:#e10600;
+    color:white;
+}
+
+/* =========================
+   DIAGNOSTIC
+========================= */
+
+.diagnostic-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:15px;
+}
+
+.diagnostic-card{
+    background:#111820;
+    border:1px solid #29343e;
+    border-radius:12px;
+    padding:22px;
+}
+
+.diagnostic-card h3{
+    margin-bottom:10px;
+}
+
+.diagnostic-card p{
+    color:#919da7;
+    line-height:1.5;
+}
+
+.diagnostic-card button{
+    margin-top:15px;
+    background:#e10600;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:7px;
+    cursor:pointer;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:900px){
+
+    .sidebar{
+        width:220px;
+    }
+
+    .search-box{
+        width:220px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+@media(max-width:700px){
+
+    header{
+        padding:0 15px;
+    }
+
+    .logo h1{
+        font-size:17px;
+    }
+
+    .search-box{
+        width:150px;
+    }
+
+    .container{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        height:auto;
+        position:relative;
+        top:0;
+        border-right:none;
+        border-bottom:1px solid #27313b;
+    }
+
+    .main{
+        padding:15px;
+    }
+
+    .hero h2{
+        font-size:25px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-icon">
+            🔧
+        </div>
+
+        <div>
+            <h1>DIAG MOTEUR</h1>
+            <span>Diagnostic Automobile</span>
+        </div>
+
+    </div>
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="Rechercher une pièce..."
+            oninput="searchOrgan()"
+        >
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <button
+        class="side-btn active"
+        onclick="showHome()"
+    >
+        🏠 Accueil
+    </button>
+
+
+    <div class="sidebar-title">
+        Bas moteur
+    </div>
+
+    <div id="sidebar-bas"></div>
+
+
+    <div class="sidebar-title">
+        Culasse / Distribution
+    </div>
+
+    <div id="sidebar-culasse"></div>
+
+
+    <div class="sidebar-title">
+        Refroidissement
+    </div>
+
+    <div id="sidebar-refroidissement"></div>
+
+
+    <div class="sidebar-title">
+        Lubrification
+    </div>
+
+    <div id="sidebar-lubrification"></div>
+
+
+    <div class="sidebar-title">
+        Injection / Gestion
+    </div>
+
+    <div id="sidebar-injection"></div>
+
+
+    <div class="sidebar-title">
+        Diagnostic
+    </div>
+
+    <button
+        class="side-btn"
+        onclick="showDiagnostic()"
+    >
+        🩺 Diagnostic moteur
+    </button>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+
+<!-- =========================
+     HOME
+========================= -->
+
+<section
+    id="homePage"
+    class="page active"
+>
+
+    <div class="hero">
+
+        <h2>
+            Diagnostic Automobile
+        </h2>
+
+        <p>
+            Apprendre les principaux organes du moteur thermique,
+            leur rôle, leur fonctionnement, leurs symptômes de panne
+            et les méthodes de contrôle.
+        </p>
+
+    </div>
+
+
+    <div class="section-title">
+
+        <h2>
+            Organes du moteur
+        </h2>
+
+        <span>
+            Sélectionnez une pièce
+        </span>
+
+    </div>
+
+
+    <div
+        id="homeOrgans"
+        class="grid"
+    ></div>
+
+</section>
+
+
+
+<!-- =========================
+     DETAIL
+========================= -->
+
+<section
+    id="detailPage"
+    class="page"
+>
+
+    <div class="detail-header">
+
+        <button
+            class="back-btn"
+            onclick="showHome()"
+        >
+            ← Retour
+        </button>
+
+        <div class="detail-title">
+
+            <h1 id="detailName">
+                Pièce
+            </h1>
+
+            <p id="detailCategory">
+                Catégorie
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="detailContent"
+    ></div>
+
+</section>
+
+
+
+<!-- =========================
+     DIAGNOSTIC
+========================= -->
+
+<section
+    id="diagnosticPage"
+    class="page"
+>
+
+    <div class="hero">
+
+        <h2>
+            🩺 Diagnostic moteur
+        </h2>
+
+        <p>
+            Identifier un symptôme, comprendre les causes possibles
+            et effectuer les contrôles nécessaires.
+        </p>
+
+    </div>
+
+
+    <div class="diagnostic-grid">
+
+        <div class="diagnostic-card">
+
+            <h3>
+                🔥 Surchauffe moteur
+            </h3>
+
+            <p>
+                Contrôler liquide de refroidissement,
+                thermostat, pompe à eau, ventilateur,
+                radiateur et température moteur.
+            </p>
+
+            <button
+                onclick="diagnostic('surchauffe')"
+            >
+                Voir diagnostic
+            </button>
+
+        </div>
+
+
+        <div class="diagnostic-card">
+
+            <h3>
+                🚗 Perte de puissance
+            </h3>
+
+            <p>
+                Contrôler admission, injection,
+                compression, distribution et échappement.
+            </p>
+
+            <button
+                onclick="diagnostic('puissance')"
+            >
+                Voir diagnostic
+            </button>
+
+        </div>
+
+
+        <div class="diagnostic-card">
+
+            <h3>
+                🔊 Bruit moteur
+            </h3>
+
+            <p>
+                Contrôler lubrification, coussinets,
+                bielle, vilebrequin, distribution et soupapes.
+            </p>
+
+            <button
+                onclick="diagnostic('bruit')"
+            >
+                Voir diagnostic
+            </button>
+
+        </div>
+
+
+        <div class="diagnostic-card">
+
+            <h3>
+                ⚡ Difficulté démarrage
+            </h3>
+
+            <p>
+                Contrôler batterie, démarreur,
+                carburant, injecteurs, bougies et capteurs.
+            </p>
+
+            <button
+                onclick="diagnostic('demarrage')"
+            >
+                Voir diagnostic
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="diagnosticResult"
+        style="margin-top:20px;"
+    ></div>
+
+</section>
+
+
+</main>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   DATABASE DES ORGANES
+========================================================= */
+
+const organs = {
+
+
+/* =========================================================
+   BAS MOTEUR
+========================================================= */
+
+cylindre:{
+    name:"Cylindre",
+    icon:"⚙️",
+    category:"Bas moteur",
+    image:"images/cylindre.jpg",
+
+    description:
+    "Le cylindre constitue l'espace dans lequel le piston se déplace.",
+
+    role:
+    "Guider le piston et permettre la réalisation du cycle moteur.",
+
+    fonctionnement:
+    "Le piston se déplace alternativement dans le cylindre. La combustion du mélange ou du carburant crée une pression qui pousse le piston.",
+
+    symptoms:[
+        "Perte de compression",
+        "Consommation d'huile",
+        "Fumée anormale",
+        "Perte de puissance",
+        "Usure ou rayures de la paroi"
+    ],
+
+    control:[
+        "Mesurer la compression.",
+        "Contrôler l'état de la paroi du cylindre.",
+        "Contrôler le diamètre et l'ovalisation.",
+        "Utiliser une caméra endoscopique si nécessaire."
+    ],
+
+    related:[
+        ["piston","Piston"],
+        ["segments","Segments"],
+        ["bielle","Bielle"]
+    ]
+},
+
+
+carter_huile:{
+    name:"Carter",
+    icon:"🛢️",
+    category:"Bas moteur",
+    image:"images/carter.jpg",
+
+    description:
+    "Le carter inférieur contient et récupère l'huile moteur.",
+
+    role:
+    "Stocker l'huile moteur et protéger la partie inférieure du moteur.",
+
+    fonctionnement:
+    "L'huile redescend par gravité vers le carter après avoir lubrifié les différents organes.",
+
+    symptoms:[
+        "Fuite d'huile",
+        "Carter déformé",
+        "Niveau d'huile insuffisant",
+        "Présence de limaille dans l'huile"
+    ],
+
+    control:[
+        "Contrôler les fuites.",
+        "Contrôler l'état du joint.",
+        "Contrôler les dommages du carter.",
+        "Contrôler le niveau et l'état de l'huile."
+    ],
+
+    related:[
+        ["pompe_huile","Pompe à huile"],
+        ["vilebrequin","Vilebrequin"],
+        ["coussinets","Coussinets"]
+    ]
+},
+
+
+pompe_huile:{
+    name:"Pompe à huile",
+    icon:"🛢️",
+    category:"Lubrification",
+    image:"images/pompe-huile.jpg",
+
+    description:
+    "La pompe à huile assure la circulation de l'huile dans le moteur.",
+
+    role:
+    "Fournir une pression et un débit d'huile suffisants pour lubrifier les organes.",
+
+    fonctionnement:
+    "Elle aspire l'huile du carter puis l'envoie sous pression vers les différents circuits de lubrification.",
+
+    symptoms:[
+        "Voyant pression d'huile",
+        "Bruit moteur",
+        "Usure rapide des pièces",
+        "Pression d'huile insuffisante"
+    ],
+
+    control:[
+        "Contrôler le niveau d'huile.",
+        "Mesurer la pression d'huile.",
+        "Contrôler la crépine.",
+        "Contrôler l'état de la pompe."
+    ],
+
+    related:[
+        ["carter_huile","Carter"],
+        ["coussinets","Coussinets"],
+        ["vilebrequin","Vilebrequin"]
+    ]
+},
+
+
+vilebrequin:{
+    name:"Vilebrequin",
+    icon:"⚙️",
+    category:"Bas moteur",
+    image:"images/vilebrequin.jpg",
+
+    description:
+    "Le vilebrequin transforme le mouvement alternatif des pistons en mouvement rotatif.",
+
+    role:
+    "Transmettre le couple moteur vers le volant moteur et la transmission.",
+
+    fonctionnement:
+    "Les bielles transmettent la force des pistons aux manetons du vilebrequin, ce qui produit une rotation.",
+
+    symptoms:[
+        "Bruit moteur",
+        "Vibrations",
+        "Usure des paliers",
+        "Jeu excessif",
+        "Mauvaise pression d'huile"
+    ],
+
+    control:[
+        "Contrôler les jeux des paliers.",
+        "Mesurer les portées.",
+        "Contrôler le faux-rond.",
+        "Rechercher les rayures ou usures."
+    ],
+
+    related:[
+        ["bielle","Bielle"],
+        ["coussinets","Coussinets"],
+        ["chapeaux_bielle","Chapeaux de bielle"]
+    ]
+},
+
+
+coussinets:{
+    name:"Coussinets",
+    icon:"🔩",
+    category:"Bas moteur",
+    image:"images/coussinets.jpg",
+
+    description:
+    "Les coussinets sont des éléments de palier permettant le guidage du vilebrequin ou de la bielle.",
+
+    role:
+    "Réduire les frottements et assurer un guidage précis.",
+
+    fonctionnement:
+    "Une fine couche d'huile se trouve entre les surfaces métalliques afin de limiter le contact direct.",
+
+    symptoms:[
+        "Claquement moteur",
+        "Baisse de pression d'huile",
+        "Limaille dans l'huile",
+        "Usure rapide",
+        "Jeu excessif"
+    ],
+
+    control:[
+        "Contrôler visuellement les coussinets.",
+        "Mesurer le jeu avec les méthodes adaptées.",
+        "Contrôler les portées du vilebrequin.",
+        "Rechercher des traces de surchauffe ou de rotation."
+    ],
+
+    related:[
+        ["vilebrequin","Vilebrequin"],
+        ["bielle","Bielle"],
+        ["pompe_huile","Pompe à huile"]
+    ]
+},
+
+
+chapeaux_bielle:{
+    name:"Chapeaux de bielle",
+    icon:"🔩",
+    category:"Bas moteur",
+    image:"images/chapeaux-bielle.jpg",
+
+    description:
+    "Le chapeau de bielle ferme la tête de bielle autour du maneton du vilebrequin.",
+
+    role:
+    "Maintenir la bielle et les coussinets autour du vilebrequin.",
+
+    fonctionnement:
+    "Il est fixé à la bielle par des vis spécifiques afin de maintenir correctement l'ensemble.",
+
+    symptoms:[
+        "Claquement moteur",
+        "Jeu de bielle",
+        "Usure des coussinets",
+        "Serrage incorrect"
+    ],
+
+    control:[
+        "Contrôler le couple de serrage.",
+        "Contrôler l'état des vis.",
+        "Contrôler les coussinets.",
+        "Contrôler l'alignement."
+    ],
+
+    related:[
+        ["bielle","Bielle"],
+        ["coussinets","Coussinets"],
+        ["vilebrequin","Vilebrequin"]
+    ]
+},
+
+
+bielle:{
+    name:"Bielle",
+    icon:"🔧",
+    category:"Bas moteur",
+    image:"images/bielle.jpg",
+
+    description:
+    "La bielle relie le piston au vilebrequin.",
+
+    role:
+    "Transmettre l'effort du piston au vilebrequin.",
+
+    fonctionnement:
+    "La bielle reçoit le mouvement alternatif du piston et le transmet au vilebrequin.",
+
+    symptoms:[
+        "Claquement",
+        "Vibrations",
+        "Jeu anormal",
+        "Déformation",
+        "Casse moteur"
+    ],
+
+    control:[
+        "Contrôler le jeu.",
+        "Contrôler la rectitude.",
+        "Contrôler les coussinets.",
+        "Contrôler les surfaces de contact."
+    ],
+
+    related:[
+        ["piston","Piston"],
+        ["vilebrequin","Vilebrequin"],
+        ["coussinets","Coussinets"],
+        ["chapeaux_bielle","Chapeaux de bielle"]
+    ]
+},
+
+
+piston:{
+    name:"Piston",
+    icon:"🔩",
+    category:"Bas moteur",
+    image:"images/piston.jpg",
+
+    description:
+    "Le piston se déplace dans le cylindre et reçoit la pression produite par la combustion.",
+
+    role:
+    "Transformer la pression des gaz de combustion en mouvement mécanique.",
+
+    fonctionnement:
+    "Le piston effectue un mouvement alternatif entre le PMH et le PMB.",
+
+    symptoms:[
+        "Perte de compression",
+        "Consommation d'huile",
+        "Fumée bleue",
+        "Bruit de piston",
+        "Perte de puissance"
+    ],
+
+    control:[
+        "Contrôler l'état de la calotte.",
+        "Contrôler le jeu piston/cylindre.",
+        "Contrôler les segments.",
+        "Contrôler l'axe de piston."
+    ],
+
+    related:[
+        ["cylindre","Cylindre"],
+        ["segments","Segments"],
+        ["bielle","Bielle"]
+    ]
+},
+
+
+segments:{
+    name:"Segments",
+    icon:"⭕",
+    category:"Bas moteur",
+    image:"images/segments.jpg",
+
+    description:
+    "Les segments sont montés autour du piston.",
+
+    role:
+    "Assurer l'étanchéité entre piston et cylindre et contrôler l'huile.",
+
+    fonctionnement:
+    "Les segments appuient contre la paroi du cylindre afin de limiter le passage des gaz et de contrôler le film d'huile.",
+
+    symptoms:[
+        "Fumée bleue",
+        "Consommation d'huile",
+        "Perte de compression",
+        "Blow-by important"
+    ],
+
+    control:[
+        "Contrôler le jeu à la coupe.",
+        "Contrôler l'usure.",
+        "Contrôler les gorges du piston.",
+        "Contrôler l'étanchéité."
+    ],
+
+    related:[
+        ["piston","Piston"],
+        ["cylindre","Cylindre"]
+    ]
+},
+
+
+
+/* =========================================================
+   CULASSE / DISTRIBUTION
+========================================================= */
+
+culasse:{
+    name:"Culasse",
+    icon:"🔧",
+    category:"Culasse / Distribution",
+    image:"images/culasse.jpg",
+
+    description:
+    "La culasse ferme la partie supérieure des cylindres et contient plusieurs éléments du moteur.",
+
+    role:
+    "Assurer l'étanchéité de la chambre de combustion et supporter les organes de distribution.",
+
+    fonctionnement:
+    "Elle est fixée au bloc moteur avec un joint de culasse assurant l'étanchéité entre les circuits.",
+
+    symptoms:[
+        "Surchauffe",
+        "Perte de compression",
+        "Mélange huile/liquide de refroidissement",
+        "Fuite de liquide",
+        "Fumée blanche"
+    ],
+
+    control:[
+        "Contrôler l'étanchéité.",
+        "Contrôler le plan de joint.",
+        "Contrôler les soupapes.",
+        "Contrôler le joint de culasse."
+    ],
+
+    related:[
+        ["soupape_admission","Soupape admission"],
+        ["soupape_echappement","Soupape échappement"],
+        ["arbre_cames","Arbre à cames"],
+        ["bougie","Bougie"],
+        ["injecteur","Injecteur"]
+    ]
+},
+
+
+soupape_admission:{
+    name:"Soupape admission",
+    icon:"🔧",
+    category:"Culasse / Distribution",
+    image:"images/soupape-admission.jpg",
+
+    description:
+    "La soupape d'admission contrôle l'entrée de l'air ou du mélange dans le cylindre.",
+
+    role:
+    "Permettre l'entrée de l'air ou du mélange dans la chambre de combustion.",
+
+    fonctionnement:
+    "Elle s'ouvre pendant la phase d'admission puis se ferme pour assurer la compression.",
+
+    symptoms:[
+        "Perte de compression",
+        "Ratés moteur",
+        "Perte de puissance",
+        "Mauvaise combustion"
+    ],
+
+    control:[
+        "Contrôler l'étanchéité.",
+        "Contrôler la portée.",
+        "Contrôler le jeu aux soupapes.",
+        "Contrôler la tige et le ressort."
+    ],
+
+    related:[
+        ["culasse","Culasse"],
+        ["arbre_cames","Arbre à cames"],
+        ["poussoir","Poussoir"],
+        ["culbuteurs","Culbuteurs"]
+    ]
+},
+
+
+soupape_echappement:{
+    name:"Soupape échappement",
+    icon:"🔥",
+    category:"Culasse / Distribution",
+    image:"images/soupape-echappement.jpg",
+
+    description:
+    "La soupape d'échappement permet l'évacuation des gaz brûlés.",
+
+    role:
+    "Permettre aux gaz de combustion de sortir du cylindre.",
+
+    fonctionnement:
+    "Elle s'ouvre pendant la phase d'échappement puis se ferme avant la compression.",
+
+    symptoms:[
+        "Perte de compression",
+        "Perte de puissance",
+        "Ratés moteur",
+        "Soupape brûlée"
+    ],
+
+    control:[
+        "Contrôler l'étanchéité.",
+        "Contrôler la portée.",
+        "Contrôler le jeu.",
+        "Contrôler l'état de la soupape."
+    ],
+
+    related:[
+        ["culasse","Culasse"],
+        ["arbre_cames","Arbre à cames"],
+        ["poussoir","Poussoir"],
+        ["culbuteurs","Culbuteurs"]
+    ]
+},
+
+
+bougie:{
+    name:"Bougie",
+    icon:"⚡",
+    category:"Culasse / Distribution",
+    image:"images/bougie.jpg",
+
+    description:
+    "La bougie d'allumage produit l'étincelle nécessaire à la combustion sur un moteur essence.",
+
+    role:
+    "Enflammer le mélange air-carburant.",
+
+    fonctionnement:
+    "Une haute tension crée une étincelle entre les électrodes de la bougie.",
+
+    symptoms:[
+        "Démarrage difficile",
+        "Ratés moteur",
+        "Perte de puissance",
+        "Surconsommation",
+        "Voyant moteur"
+    ],
+
+    control:[
+        "Contrôler l'état des électrodes.",
+        "Contrôler l'écartement.",
+        "Contrôler la présence d'étincelle.",
+        "Contrôler les défauts d'allumage."
+    ],
+
+    related:[
+        ["culasse","Culasse"]
+    ]
+},
+
+
+injecteur:{
+    name:"Injecteur",
+    icon:"💉",
+    category:"Culasse / Distribution",
+    image:"images/injecteur.jpg",
+
+    description:
+    "L'injecteur dose et pulvérise le carburant dans le moteur.",
+
+    role:
+    "Fournir la quantité correcte de carburant au bon moment.",
+
+    fonctionnement:
+    "L'injecteur est commandé par le système de gestion moteur afin d'ouvrir pendant une durée déterminée.",
+
+    symptoms:[
+        "Démarrage difficile",
+        "Ralenti instable",
+        "Fumée",
+        "Surconsommation",
+        "Perte de puissance"
+    ],
+
+    control:[
+        "Lire les défauts avec un outil diagnostic.",
+        "Contrôler les corrections d'injection.",
+        "Contrôler le retour injecteur si nécessaire.",
+        "Contrôler le câblage et l'alimentation."
+    ],
+
+    related:[
+        ["calculateur","Calculateur"],
+        ["pompe_carburant","Pompe carburant"],
+        ["culasse","Culasse"]
+    ]
+},
+
+
+arbre_cames:{
+    name:"Arbre à cames",
+    icon:"⚙️",
+    category:"Culasse / Distribution",
+    image:"images/arbre-cames.jpg",
+
+    description:
+    "L'arbre à cames commande l'ouverture et la fermeture des soupapes.",
+
+    role:
+    "Synchroniser la distribution avec la rotation du moteur.",
+
+    fonctionnement:
+    "Les cames poussent les éléments de commande afin d'ouvrir les soupapes au moment prévu.",
+
+    symptoms:[
+        "Perte de puissance",
+        "Bruit de distribution",
+        "Mauvaise synchronisation",
+        "Difficulté de démarrage"
+    ],
+
+    control:[
+        "Contrôler l'usure des cames.",
+        "Contrôler le calage.",
+        "Contrôler le jeu.",
+        "Contrôler la synchronisation avec le vilebrequin."
+    ],
+
+    related:[
+        ["poussoir","Poussoir"],
+        ["culbuteurs","Culbuteurs"],
+        ["soupape_admission","Soupape admission"],
+        ["soupape_echappement","Soupape échappement"]
+    ]
+},
+
+
+poussoir:{
+    name:"Poussoirs",
+    icon:"🔩",
+    category:"Culasse / Distribution",
+    image:"images/poussoirs.jpg",
+
+    description:
+    "Le poussoir transmet le mouvement de la came vers les éléments de commande de la soupape.",
+
+    role:
+    "Transmettre le mouvement de l'arbre à cames.",
+
+    fonctionnement:
+    "La came appuie sur le poussoir qui transmet le mouvement vers la soupape ou le culbuteur selon l'architecture du moteur.",
+
+    symptoms:[
+        "Cliquetis",
+        "Bruit moteur",
+        "Mauvaise ouverture de soupape",
+        "Perte de puissance"
+    ],
+
+    control:[
+        "Contrôler l'usure.",
+        "Contrôler le jeu.",
+        "Contrôler la lubrification.",
+        "Contrôler la surface de contact."
+    ],
+
+    related:[
+        ["arbre_cames","Arbre à cames"],
+        ["culbuteurs","Culbuteurs"],
+        ["soupape_admission","Soupape admission"],
+        ["soupape_echappement","Soupape échappement"]
+    ]
+},
+
+
+culbuteurs:{
+    name:"Culbuteurs",
+    icon:"🔧",
+    category:"Culasse / Distribution",
+    image:"images/culbuteurs.jpg",
+
+    description:
+    "Le culbuteur transmet le mouvement du système de distribution vers la soupape.",
+
+    role:
+    "Transmettre le mouvement de commande vers la soupape.",
+
+    fonctionnement:
+    "Le culbuteur bascule autour de son axe et transmet le mouvement reçu du poussoir ou de la came vers la soupape.",
+
+    symptoms:[
+        "Cliquetis",
+        "Perte de puissance",
+        "Mauvaise ouverture de soupape",
+        "Usure des surfaces de contact"
+    ],
+
+    control:[
+        "Contrôler le jeu aux soupapes si applicable.",
+        "Contrôler les surfaces de contact.",
+        "Contrôler l'usure.",
+        "Contrôler l'état de l'arbre à cames et des poussoirs."
+    ],
+
+    related:[
+        ["poussoir","Poussoirs"],
+        ["arbre_cames","Arbre à cames"],
+        ["soupape_admission","Soupape admission"],
+        ["soupape_echappement","Soupape échappement"]
+    ]
+},
+
+
+ressort_soupape:{
+    name:"Ressort de soupape",
+    icon:"🔩",
+    category:"Culasse / Distribution",
+
+    description:
+    "Le ressort maintient la soupape fermée et permet son retour après ouverture.",
+
+    role:
+    "Ramener la soupape en position fermée.",
+
+    fonctionnement:
+    "Le ressort est comprimé lors de l'ouverture de la soupape puis restitue son énergie pour la refermer.",
+
+    symptoms:[
+        "Ratés moteur",
+        "Perte de puissance",
+        "Mauvaise fermeture de soupape"
+    ],
+
+    control:[
+        "Contrôler la longueur.",
+        "Contrôler la tension.",
+        "Contrôler l'état du ressort."
+    ],
+
+    related:[
+        ["soupape_admission","Soupape admission"],
+        ["soupape_echappement","Soupape échappement"]
+    ]
+},
+
+
+distribution:{
+    name:"Distribution",
+    icon:"⚙️",
+    category:"Culasse / Distribution",
+
+    description:
+    "Le système de distribution synchronise le vilebrequin et l'arbre à cames.",
+
+    role:
+    "Assurer l'ouverture et la fermeture des soupapes au bon moment.",
+
+    fonctionnement:
+    "Le vilebrequin entraîne l'arbre à cames à travers une courroie, une chaîne ou des engrenages.",
+
+    symptoms:[
+        "Démarrage difficile",
+        "Perte de puissance",
+        "Bruit moteur",
+        "Mauvais calage"
+    ],
+
+    control:[
+        "Contrôler le calage.",
+        "Contrôler la courroie ou chaîne.",
+        "Contrôler les repères.",
+        "Contrôler le tendeur."
+    ],
+
+    related:[
+        ["arbre_cames","Arbre à cames"],
+        ["vilebrequin","Vilebrequin"]
+    ]
+},
+
+
+
+/* =========================================================
+   REFROIDISSEMENT
+========================================================= */
+
+thermostat:{
+    name:"Thermostat",
+    icon:"🌡️",
+    category:"Refroidissement",
+
+    description:
+    "Le thermostat régule la circulation du liquide de refroidissement.",
+
+    role:
+    "Maintenir le moteur dans sa plage normale de température.",
+
+    fonctionnement:
+    "Il reste fermé à froid puis s'ouvre progressivement lorsque la température augmente.",
+
+    symptoms:[
+        "Surchauffe",
+        "Moteur trop froid",
+        "Chauffage habitacle faible",
+        "Température instable"
+    ],
+
+    control:[
+        "Contrôler la température d'ouverture.",
+        "Contrôler la circulation du liquide.",
+        "Contrôler avec une température réelle."
+    ],
+
+    related:[
+        ["pompe_eau","Pompe à eau"],
+        ["radiateur","Radiateur"]
+    ]
+},
+
+
+pompe_eau:{
+    name:"Pompe à eau",
+    icon:"💧",
+    category:"Refroidissement",
+
+    description:
+    "La pompe à eau fait circuler le liquide de refroidissement.",
+
+    role:
+    "Assurer la circulation du liquide dans le moteur.",
+
+    fonctionnement:
+    "La pompe est entraînée mécaniquement ou électriquement et fait circuler le liquide.",
+
+    symptoms:[
+        "Surchauffe",
+        "Fuite de liquide",
+        "Bruit",
+        "Mauvaise circulation"
+    ],
+
+    control:[
+        "Contrôler les fuites.",
+        "Contrôler le bruit du roulement.",
+        "Contrôler la circulation.",
+        "Contrôler la température moteur."
+    ],
+
+    related:[
+        ["thermostat","Thermostat"],
+        ["radiateur","Radiateur"]
+    ]
+},
+
+
+radiateur:{
+    name:"Radiateur",
+    icon:"🌡️",
+    category:"Refroidissement",
+
+    description:
+    "Le radiateur évacue la chaleur du liquide de refroidissement.",
+
+    role:
+    "Refroidir le liquide de refroidissement.",
+
+    fonctionnement:
+    "Le liquide chaud traverse le radiateur et transmet sa chaleur à l'air.",
+
+    symptoms:[
+        "Surchauffe",
+        "Fuite",
+        "Mauvais refroidissement",
+        "Canaux bouchés"
+    ],
+
+    control:[
+        "Contrôler les fuites.",
+        "Contrôler les ailettes.",
+        "Contrôler la circulation.",
+        "Contrôler la température entrée/sortie."
+    ],
+
+    related:[
+        ["ventilateur","Ventilateur"],
+        ["thermostat","Thermostat"]
+    ]
+},
+
+
+ventilateur:{
+    name:"Ventilateur",
+    icon:"🌀",
+    category:"Refroidissement",
+
+    description:
+    "Le ventilateur force le passage de l'air à travers le radiateur.",
+
+    role:
+    "Augmenter le refroidissement lorsque le débit d'air naturel est insuffisant.",
+
+    fonctionnement:
+    "Le ventilateur est commandé selon la température moteur et parfois par le calculateur.",
+
+    symptoms:[
+        "Surchauffe à l'arrêt",
+        "Ventilateur toujours actif",
+        "Ventilateur qui ne démarre pas"
+    ],
+
+    control:[
+        "Contrôler le fusible.",
+        "Contrôler le relais.",
+        "Contrôler le moteur électrique.",
+        "Contrôler la commande."
+    ],
+
+    related:[
+        ["radiateur","Radiateur"],
+        ["thermostat","Thermostat"]
+    ]
+},
+
+
+
+/* =========================================================
+   LUBRIFICATION
+========================================================= */
+
+filtre_huile:{
+    name:"Filtre à huile",
+    icon:"🛢️",
+    category:"Lubrification",
+
+    description:
+    "Le filtre à huile élimine les impuretés présentes dans l'huile moteur.",
+
+    role:
+    "Protéger les organes du moteur contre les particules.",
+
+    fonctionnement:
+    "L'huile traverse un élément filtrant avant d'être envoyée vers les organes à lubrifier.",
+
+    symptoms:[
+        "Mauvaise lubrification",
+        "Pression d'huile anormale",
+        "Huile contaminée"
+    ],
+
+    control:[
+        "Contrôler l'état du filtre.",
+        "Contrôler les fuites.",
+        "Respecter la périodicité de remplacement."
+    ],
+
+    related:[
+        ["pompe_huile","Pompe à huile"],
+        ["carter_huile","Carter"]
+    ]
+},
+
+
+
+/* =========================================================
+   INJECTION / GESTION
+========================================================= */
+
+calculateur:{
+    name:"Calculateur moteur",
+    icon:"💻",
+    category:"Injection / Gestion",
+
+    description:
+    "Le calculateur moteur reçoit les informations des capteurs et commande différents actionneurs.",
+
+    role:
+    "Gérer le fonctionnement du moteur.",
+
+    fonctionnement:
+    "Il analyse les signaux des capteurs puis calcule les commandes nécessaires pour les actionneurs.",
+
+    symptoms:[
+        "Voyant moteur",
+        "Démarrage difficile",
+        "Perte de puissance",
+        "Mode dégradé"
+    ],
+
+    control:[
+        "Lire les codes défauts.",
+        "Contrôler l'alimentation.",
+        "Contrôler les masses.",
+        "Contrôler les réseaux de communication.",
+        "Contrôler les données en temps réel."
+    ],
+
+    related:[
+        ["injecteur","Injecteur"],
+        ["capteur_temperature","Capteur température"],
+        ["pompe_carburant","Pompe carburant"]
+    ]
+},
+
+
+capteur_temperature:{
+    name:"Capteur de température",
+    icon:"🌡️",
+    category:"Injection / Gestion",
+
+    description:
+    "Le capteur mesure la température du moteur.",
+
+    role:
+    "Informer le calculateur de la température du liquide de refroidissement.",
+
+    fonctionnement:
+    "Le capteur transforme la température en signal électrique transmis au calculateur.",
+
+    symptoms:[
+        "Démarrage difficile",
+        "Surconsommation",
+        "Ventilateur anormal",
+        "Mélange incorrect"
+    ],
+
+    control:[
+        "Lire la température avec la valise.",
+        "Comparer avec la température réelle.",
+        "Contrôler la résistance ou le signal.",
+        "Contrôler le câblage."
+    ],
+
+    related:[
+        ["calculateur","Calculateur"],
+        ["thermostat","Thermostat"]
+    ]
+},
+
+
+pompe_carburant:{
+    name:"Pompe carburant",
+    icon:"⛽",
+    category:"Injection / Gestion",
+
+    description:
+    "La pompe carburant alimente le système d'injection.",
+
+    role:
+    "Fournir le carburant avec le débit et la pression nécessaires.",
+
+    fonctionnement:
+    "La pompe aspire le carburant du réservoir et l'envoie vers le système d'alimentation.",
+
+    symptoms:[
+        "Démarrage difficile",
+        "Coupures moteur",
+        "Perte de puissance",
+        "Pression carburant faible"
+    ],
+
+    control:[
+        "Mesurer la pression carburant.",
+        "Contrôler l'alimentation électrique.",
+        "Contrôler le débit.",
+        "Contrôler le filtre."
+    ],
+
+    related:[
+        ["injecteur","Injecteur"],
+        ["filtre_carburant","Filtre carburant"],
+        ["calculateur","Calculateur"]
+    ]
+},
+
+
+filtre_carburant:{
+    name:"Filtre carburant",
+    icon:"⛽",
+    category:"Injection / Gestion",
+
+    description:
+    "Le filtre carburant élimine les impuretés du carburant.",
+
+    role:
+    "Protéger le système d'injection.",
+
+    fonctionnement:
+    "Le carburant traverse le filtre avant d'arriver au système d'injection.",
+
+    symptoms:[
+        "Perte de puissance",
+        "Démarrage difficile",
+        "Pression carburant faible",
+        "Coupures moteur"
+    ],
+
+    control:[
+        "Contrôler le filtre.",
+        "Contrôler le débit.",
+        "Respecter la périodicité de remplacement."
+    ],
+
+    related:[
+        ["pompe_carburant","Pompe carburant"],
+        ["injecteur","Injecteur"]
+    ]
+}
+
+};
+
+
+/* =========================================================
+   CATEGORIES
+========================================================= */
+
+const categories = {
+
+    basMoteur:[
+        "cylindre",
+        "piston",
+        "segments",
+        "bielle",
+        "chapeaux_bielle",
+        "coussinets",
+        "vilebrequin",
+        "carter_huile"
+    ],
+
+    culasse:[
+        "culasse",
+        "soupape_admission",
+        "soupape_echappement",
+        "bougie",
+        "injecteur",
+        "arbre_cames",
+        "poussoir",
+        "culbuteurs",
+        "ressort_soupape",
+        "distribution"
+    ],
+
+    refroidissement:[
+        "thermostat",
+        "pompe_eau",
+        "radiateur",
+        "ventilateur"
+    ],
+
+    lubrification:[
+        "pompe_huile",
+        "filtre_huile"
+    ],
+
+    injection:[
+        "calculateur",
+        "capteur_temperature",
+        "pompe_carburant",
+        "filtre_carburant"
+    ]
+
+};
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+function init(){
+
+    createHomeCards();
+
+    createSidebar(
+        "sidebar-bas",
+        categories.basMoteur
+    );
+
+    createSidebar(
+        "sidebar-culasse",
+        categories.culasse
+    );
+
+    createSidebar(
+        "sidebar-refroidissement",
+        categories.refroidissement
+    );
+
+    createSidebar(
+        "sidebar-lubrification",
+        categories.lubrification
+    );
+
+    createSidebar(
+        "sidebar-injection",
+        categories.injection
+    );
+
+}
+
+
+/* =========================================================
+   HOME CARDS
+========================================================= */
+
+function createHomeCards(){
+
+    const container =
+        document.getElementById("homeOrgans");
+
+    container.innerHTML = "";
+
+    Object.keys(organs).forEach(id => {
+
+        const organ = organs[id];
+
+        container.innerHTML += `
+
+            <div
+                class="card"
+                onclick="showOrgan('${id}')"
+            >
+
+                <div class="card-icon">
+                    ${organ.icon}
+                </div>
+
+                <h3>
+                    ${organ.name}
+                </h3>
+
+                <p>
+                    ${organ.description}
+                </p>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function createSidebar(
+    elementId,
+    ids
+){
+
+    const container =
+        document.getElementById(elementId);
+
+    container.innerHTML = "";
+
+    ids.forEach(id => {
+
+        if(!organs[id]) return;
+
+        const organ = organs[id];
+
+        container.innerHTML += `
+
+            <button
+                class="side-btn"
+                onclick="showOrgan('${id}')"
+            >
+                ${organ.icon}
+                ${organ.name}
+            </button>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================================================
+   SHOW HOME
+========================================================= */
+
+function showHome(){
+
+    document
+        .getElementById("homePage")
+        .classList.add("active");
+
+    document
+        .getElementById("detailPage")
+        .classList.remove("active");
+
+    document
+        .getElementById("diagnosticPage")
+        .classList.remove("active");
+
+}
+
+
+/* =========================================================
+   SHOW ORGAN
+========================================================= */
+
+function showOrgan(id){
+
+    const organ = organs[id];
+
+    if(!organ) return;
+
+
+    document
+        .getElementById("homePage")
+        .classList.remove("active");
+
+    document
+        .getElementById("diagnosticPage")
+        .classList.remove("active");
+
+    document
+        .getElementById("detailPage")
+        .classList.add("active");
+
+
+    document
+        .getElementById("detailName")
+        .textContent = organ.name;
+
+
+    document
+        .getElementById("detailCategory")
+        .textContent = organ.category;
+
+
+    let imageHTML = "";
+
+
+    /*
+       IMAGE EXISTANTE
+    */
+
+    if(organ.image){
+
+        imageHTML = `
+
+            <img
+                src="${organ.image}"
+                alt="${organ.name}"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            >
+
+            <div
+                class="image-placeholder"
+                style="display:none;"
+            >
+
+                <span class="big-icon">
+                    ${organ.icon}
+                </span>
+
+                <strong>
+                    IMAGE NON TROUVÉE
+                </strong>
+
+                <small style="margin-top:8px;">
+                    ${organ.image}
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+    /*
+       PAS D'IMAGE
+    */
+
+    else{
+
+        imageHTML = `
+
+            <div class="image-placeholder">
+
+                <span class="big-icon">
+                    ${organ.icon}
+                </span>
+
+                <strong>
+                    PHOTO DE LA PIÈCE
+                </strong>
+
+                <small>
+                    Image à ajouter
+                </small>
+
+            </div>
+
+        `;
+
+    }
+
+
+    const symptomsHTML =
+        organ.symptoms
+        .map(item => `<li>${item}</li>`)
+        .join("");
+
+
+    const controlHTML =
+        organ.control
+        .map(item => `<li>${item}</li>`)
+        .join("");
+
+
+    let relatedHTML = "";
+
+    if(organ.related){
+
+        relatedHTML = organ.related
+            .map(item => `
+
+                <button
+                    onclick="showOrgan('${item[0]}')"
+                >
+                    ${item[1]}
+                </button>
+
+            `)
+            .join("");
+
+    }
+
+
+    document
+        .getElementById("detailContent")
+        .innerHTML = `
+
+            <!-- PHOTO -->
+
+            <div class="detail-image">
+
+                ${imageHTML}
+
+            </div>
+
+
+            <!-- INFORMATIONS -->
+
+            <div class="info-grid">
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="info-card">
+
+                    <h3>
+                        📌 Description
+                    </h3>
+
+                    <p>
+                        ${organ.description}
+                    </p>
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <div class="info-card">
+
+                    <h3>
+                        🎯 Rôle
+                    </h3>
+
+                    <p>
+                        ${organ.role}
+                    </p>
+
+                </div>
+
+
+                <!-- FONCTIONNEMENT -->
+
+                <div class="info-card full-card">
+
+                    <h3>
+                        ⚙️ Fonctionnement
+                    </h3>
+
+                    <p>
+                        ${organ.fonctionnement}
+                    </p>
+
+                </div>
+
+
+                <!-- SYMPTOMES -->
+
+                <div class="info-card">
+
+                    <h3>
+                        ⚠️ Symptômes de panne
+                    </h3>
+
+                    <ul>
+                        ${symptomsHTML}
+                    </ul>
+
+                </div>
+
+
+                <!-- CONTROLE -->
+
+                <div class="info-card">
+
+                    <h3>
+                        🔍 Contrôle / Diagnostic
+                    </h3>
+
+                    <ul>
+                        ${controlHTML}
+                    </ul>
+
+                </div>
+
+
+                <!-- PIECES LIEES -->
+
+                <div class="info-card full-card">
+
+                    <h3>
+                        🔗 Pièces liées
+                    </h3>
+
+                    <div class="related">
+
+                        ${relatedHTML}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+function searchOrgan(){
+
+    const value =
+        document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const cards =
+        document.querySelectorAll(
+            "#homeOrgans .card"
+        );
+
+
+    cards.forEach(card => {
+
+        const text =
+            card.innerText.toLowerCase();
+
+        if(text.includes(value)){
+
+            card.style.display = "block";
+
+        }
+
+        else{
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+/* =========================================================
+   DIAGNOSTIC PAGE
+========================================================= */
+
+function showDiagnostic(){
+
+    document
+        .getElementById("homePage")
+        .classList.remove("active");
+
+    document
+        .getElementById("detailPage")
+        .classList.remove("active");
+
+    document
+        .getElementById("diagnosticPage")
+        .classList.add("active");
+
+}
+
+
+/* =========================================================
+   DIAGNOSTIC RESULTS
+========================================================= */
+
+function diagnostic(type){
+
+    const result =
+        document.getElementById(
+            "diagnosticResult"
+        );
+
+
+    let title = "";
+    let text = "";
+
+
+    if(type === "surchauffe"){
+
+        title = "🔥 Diagnostic — Surchauffe moteur";
+
+        text = `
+
+            <div class="info-card">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Vérifier le niveau du liquide de refroidissement.
+                    </li>
+
+                    <li>
+                        Contrôler les fuites.
+                    </li>
+
+                    <li>
+                        Contrôler le thermostat.
+                    </li>
+
+                    <li>
+                        Contrôler la pompe à eau.
+                    </li>
+
+                    <li>
+                        Contrôler le ventilateur.
+                    </li>
+
+                    <li>
+                        Contrôler le radiateur.
+                    </li>
+
+                    <li>
+                        Lire la température avec l'outil diagnostic.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type === "puissance"){
+
+        title = "🚗 Diagnostic — Perte de puissance";
+
+        text = `
+
+            <div class="info-card">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Lire les codes défauts.
+                    </li>
+
+                    <li>
+                        Contrôler l'admission d'air.
+                    </li>
+
+                    <li>
+                        Contrôler l'injection.
+                    </li>
+
+                    <li>
+                        Contrôler la pression carburant.
+                    </li>
+
+                    <li>
+                        Contrôler la compression.
+                    </li>
+
+                    <li>
+                        Contrôler la distribution.
+                    </li>
+
+                    <li>
+                        Contrôler les données en temps réel.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type === "bruit"){
+
+        title = "🔊 Diagnostic — Bruit moteur";
+
+        text = `
+
+            <div class="info-card">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Identifier précisément le bruit.
+                    </li>
+
+                    <li>
+                        Contrôler le niveau d'huile.
+                    </li>
+
+                    <li>
+                        Contrôler la pression d'huile.
+                    </li>
+
+                    <li>
+                        Contrôler les coussinets.
+                    </li>
+
+                    <li>
+                        Contrôler les bielles.
+                    </li>
+
+                    <li>
+                        Contrôler la distribution.
+                    </li>
+
+                    <li>
+                        Contrôler les soupapes.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        `;
+
+    }
+
+
+    if(type === "demarrage"){
+
+        title = "⚡ Diagnostic — Démarrage difficile";
+
+        text = `
+
+            <div class="info-card">
+
+                <h3>
+                    ${title}
+                </h3>
+
+                <ul>
+
+                    <li>
+                        Contrôler la batterie.
+                    </li>
+
+                    <li>
+                        Contrôler le démarreur.
+                    </li>
+
+                    <li>
+                        Contrôler l'arrivée de carburant.
+                    </li>
+
+                    <li>
+                        Contrôler les injecteurs.
+                    </li>
+
+                    <li>
+                        Contrôler les bougies sur moteur essence.
+                    </li>
+
+                    <li>
+                        Contrôler les capteurs moteur.
+                    </li>
+
+                    <li>
+                        Lire les codes défauts avec la valise.
+                    </li>
+
+                </ul>
+
+            </div>
+
+        `;
+
+    }
+
+
+    result.innerHTML = text;
+
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+init();
+
+</script>
+
+</body>
+</html>
